@@ -1,0 +1,6 @@
+git branch -r   //查看分支
+git commit --amend        //进入修正状态
+git branch <分支名字>         //创建分支
+git checkout <切换分支名字>          //切换到某个分支
+git push --set-upstream origin <分支名称>       //将分支提交到远程仓库
+git clone -b <分支名称> 项目地址      //克隆git上唔知
