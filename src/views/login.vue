@@ -22,6 +22,7 @@
 
 import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import axios from 'axios'
 let loginFormRef = ref()
 let loginForm = reactive({
     username: '',
@@ -68,6 +69,9 @@ const submitFrom = () => {
         if (value) {
             console.log(loginForm);
             localStorage.setItem('token', 'kewvalue')
+            axios.get('/users').then((res)=>{
+                console.log(res.data);
+            })
             router.push('/center')
         }
     })
