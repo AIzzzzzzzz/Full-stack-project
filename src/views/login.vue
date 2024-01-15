@@ -69,7 +69,7 @@ const submitFrom = () => {
         if (value) {
             console.log(loginForm);
             localStorage.setItem('token', 'kewvalue')
-            axios.get('/users').then((res)=>{
+            axios.post('/users',loginForm).then((res)=>{
                 console.log(res.data);
             })
             router.push('/center')
