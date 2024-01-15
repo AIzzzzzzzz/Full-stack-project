@@ -25,8 +25,8 @@ import { useRouter } from 'vue-router';
 import axios from 'axios'
 let loginFormRef = ref()
 let loginForm = reactive({
-    username: '',
-    password: ''
+    username: '456456456',
+    password: '4564213123'
 })
 
 const router = useRouter()
@@ -69,7 +69,8 @@ const submitFrom = () => {
         if (value) {
             console.log(loginForm);
             localStorage.setItem('token', 'kewvalue')
-            axios.post('/users',loginForm).then((res)=>{
+            //发送登录请求，把用户名密码给后端
+            axios.post('/adminapi/users/login',loginForm).then((res)=>{
                 console.log(res.data);
             })
             router.push('/center')

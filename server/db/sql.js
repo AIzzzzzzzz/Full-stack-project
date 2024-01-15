@@ -13,4 +13,14 @@ const db = mysql.createConnection({
 //     console.log(result);
 //   })
 
+//接口名字不能为  host   user   password  database
+
+//     host:'localhost',
+//     user:'root',
+//     password:'123456',
+//     database:`full_study_schema`
+
+
+
+
   module.exports = db
