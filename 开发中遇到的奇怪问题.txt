@@ -1,0 +1,23 @@
+后端接口路径不能带有  host   user   password  database  不然就报错，带有以上任何字段，
+
+举例/user/login  或者/host  或者/adminapi/users/login，就会报错，不知道原因
+
+
+连接数据库的代码是这个
+let mysql = require('mysql2')
+const db = mysql.createConnection({
+    host:'localhost',
+    user:'root',
+    password:'123456',
+    database:`full_study_schema`
+  })
+
+猜测是因为关键字，可是URL路径和连接数据库有什么关系？为什么会报错
+
+原因：我换了8.0以上的mysql问题就解决了
+let mysql = require('mysql')
+不能用mysql2引入，8.0以下的版本会出现这样的问题
+
+
+错误不是因为那四个单词！！！！！！！！！！！！！
+/adminapi/users 中间必须拼接个users 不然就会报错 原因未知 2024/01/16

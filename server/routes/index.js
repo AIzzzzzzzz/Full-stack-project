@@ -1,15 +1,15 @@
-var express = require('express');
-var router = express.Router();
+// var express = require('express');
+// var router = express.Router();
 
-/* GET home page. */
-
-
+// /* GET home page. */
 
 
 
+// router.post('/adminapi/reqceshi',(req,res)=>{
+//     res.send('123')
+// })
 
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
 
-module.exports = router;
+
+
+// module.exports = router;

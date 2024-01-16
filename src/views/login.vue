@@ -23,6 +23,12 @@
 import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios'
+
+
+
+
+
+
 let loginFormRef = ref()
 let loginForm = reactive({
     username: '456456456',
@@ -64,16 +70,21 @@ const loginRules = reactive({
 
 
 //提交方法
-const submitFrom = () => {
-    loginFormRef.value.validate((value) => {
+const submitFrom =  () => {
+    loginFormRef.value.validate(async (value) => {
         if (value) {
             console.log(loginForm);
             localStorage.setItem('token', 'kewvalue')
             //发送登录请求，把用户名密码给后端
-            axios.post('/adminapi/users/login',loginForm).then((res)=>{
-                console.log(res.data);
+            await axios.post('/adminapi/users/login',loginForm).then((res)=>{
+                if(res.data.code==200){
+                    router.push('/center')
+                }
+                else{
+                    alert(res.data.msg)
+                }
             })
-            router.push('/center')
+            
         }
     })
 
