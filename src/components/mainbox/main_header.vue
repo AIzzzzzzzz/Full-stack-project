@@ -9,10 +9,10 @@
                         <ArrowLeft />
                     </el-icon></div>
 
-                <span>企业门户管理系统</span>
+                <span>后台管理系统</span>
             </div>
             <div class="right">
-                <span>欢迎登陆</span>
+                <span>{{'欢迎'+ store.state.userinfo.username+'的到来' }}</span>
                 <el-dropdown>
                     <span class="el-dropdown-link">
 
@@ -42,6 +42,7 @@
 <script setup>
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+
 let store = useStore()
 const router = useRouter()
 const change = () => {
@@ -66,7 +67,7 @@ const untoken = () => {
     height: 6vh;
     text-align: center;
     line-height: 6vh;
-
+    min-width: 400px;
     .left {
         display: flex;
 

@@ -8,8 +8,16 @@ let UserController = {
             db.query(sqllogin,[username,password],(err,result)=>{
                 if(result.length!==0){
                     res.send({
-                        code:'200',
-                        msg:"登录成功"
+                        code:200,
+                        msg:'登录成功',
+                        data:{
+                            id:result[0].id,
+                            username:result[0].username,
+                            gender:result[0].gender,
+                            introduction:result[0].introduction,
+                            role:result[0].role,
+                            
+                        }
                     })
                 }else{
                     res.send({

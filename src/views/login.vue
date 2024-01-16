@@ -23,16 +23,19 @@
 import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios'
+import store from '@/store';
 
+//用户信息
 
+let user = reactive({})
 
 
 
 
 let loginFormRef = ref()
 let loginForm = reactive({
-    username: '456456456',
-    password: '4564213123'
+    username: 'admin',
+    password: '123456789'
 })
 
 const router = useRouter()
@@ -79,6 +82,9 @@ const submitFrom =  () => {
             await axios.post('/adminapi/users/login',loginForm).then((res)=>{
                 if(res.data.code==200){
                     router.push('/center')
+                    store.commit('insertUserInfo',res.data.data)
+                    
+                    console.log(store.state.userinfo,'商店数据');
                 }
                 else{
                     alert(res.data.msg)
