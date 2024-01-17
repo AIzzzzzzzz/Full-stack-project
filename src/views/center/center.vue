@@ -1,21 +1,199 @@
 <template>
-    <div class="-container">
-        <button @click="req_ceshi">center</button>
+    <div class="heder">
+        <el-page-header content="用户中心" :icon="null" title="管理系统">
+
+        </el-page-header>
+        <el-row :gutter="20">
+            <el-card class="card_width">
+                <el-col :span="8" :offset="0">
+                    <el-avatar :size="80" :src="avatarUrl" />
+                    <h3>{{ store.state.userinfo.username }}</h3>
+                    <h5 style="width: 60px;">{{ store.state.userinfo.role === 1 ? '管理员' : '编辑' }}</h5>
+                </el-col>
+            </el-card>
+
+            <el-col :span="16" :offset="0">
+                <el-card>
+                    <template #header>
+                        <div>
+                            <span>个人信息</span>
+                        </div>
+                    </template>
+
+                    <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="120px" class="demo-ruleForm"
+                        :size="formSize" status-icon>
+                        <el-form-item label="Activity name" prop="username">
+                            <el-input v-model="ruleForm.username" />
+                        </el-form-item>
+                        <el-form-item label="Activity name" prop="gender">
+                            <el-select v-model="ruleForm.gender" placeholder="Activity zone">
+                                <el-option label="1" value="shanghai" />
+                                <el-option label="0" value="beijing" />
+                                <el-option label="2" value="beijing" />
+                            </el-select>
+
+                        </el-form-item>
+                        <el-form-item label="Activity name" prop="introduction">
+                            <el-input type="textarea" v-model="ruleForm.introduction" />
+                        </el-form-item>
+                        <el-form-item label="Activity name" prop="avatar">
+                            <el-upload class="avatar-uploader"
+                                action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+                                :show-file-list="false" :on-success="handleAvatarSuccess"
+                                :before-upload="beforeAvatarUpload" :auto-upload="false" :on-change="handlechange">
+                                <img v-if="ruleForm.avatar" :src="ruleForm.avatar" class="avatar" />
+                                <el-icon v-else class="avatar-uploader-icon">
+                                    <Plus />
+                                </el-icon>
+                            </el-upload>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" @click="submitfrom()">
+                                更新
+                            </el-button>
+                        </el-form-item>
+                    </el-form>
+
+
+                </el-card>
+
+
+
+
+
+
+
+
+            </el-col>
+
+
+        </el-row>
     </div>
 </template>
 
 <script setup>
+import { computed } from '@vue/reactivity';
+import store from '@/store';
 import axios from 'axios';
+import { reactive, ref } from 'vue'
+
+
+const ruleFormRef = ref()
+const { username, avatar, introduction, gender } = store.state.userinfo
+const ruleForm = reactive({
+    username: '',
+    gender: 0,
+    introduction,
+    avatar,
+    file: null,
+})
+const avatarUrl = computed(() => store.state.userinfo.avatar ? store.state.userinfo.avatar : 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png')
+
+const rules = reactive({
+    username: [
+        { required: true, message: '请输入', trigger: 'blur' },
+        { min: 3, max: 5, message: '长度', trigger: 'blur' }
+    ],
+    gender: [
+        { required: true, message: '请输入', trigger: 'blur' },
+
+    ],
+    introduction: [
+        { required: false, trigger: 'blur' },
+
+    ],
+    avatar: [
+        { required: true, message: '请输入', trigger: 'blur' },
+
+    ],
+})
+
+const submitfrom = () => {
+    ruleFormRef.value.validate((file) => {
+        if (file) {
+            let params = new FormData()
+            for (let i in ruleForm) {
+                
+                
+                params.append(i, ruleForm[i])
+            }
+            axios.post('/adminapi/user/upload',params,{
+                headers:{
+                    "Content-Type":"multipart/from-data"
+                }
+            }).then((res)=>{
+                console.log(res.data);
+            })
+            
+            console.log(params);
+        }
+
+    })
+}
+
+
+const handlechange = (node) => {
+    console.log(node);
+    if (node) {
+        ruleForm.avatar = URL.createObjectURL(node.raw)
+        ruleForm.file = node.raw
+
+    }
+
+}
 
 
 
-const req_ceshi = async()=>{
-    await axios.post('/adminapi/user/user','get的数据').then((res)=>{
+const req_ceshi = async () => {
+    await axios.post('/adminapi/user/user', 'get的数据').then((res) => {
         console.log(res.data);
     })
-    
+
     console.log('已发送');
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.avatar-uploader .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+}
+
+.heder {
+    min-width: 600px;
+}
+
+.card_width {
+    width: 30%;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+</style>
+
+
+
+<style>
+.avatar-uploader .el-upload {
+    border: 1px dashed var(--el-border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: var(--el-transition-duration-fast);
+}
+
+.avatar-uploader .el-upload:hover {
+    border-color: var(--el-color-primary);
+}
+
+.el-icon.avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    text-align: center;
+}
+</style>
