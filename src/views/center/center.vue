@@ -92,7 +92,7 @@ const avatarUrl = computed(() => store.state.userinfo.avatar ? store.state.useri
 const rules = reactive({
     username: [
         { required: true, message: '请输入', trigger: 'blur' },
-        { min: 3, max: 5, message: '长度', trigger: 'blur' }
+        { min: 3, max: 12, message: '长度', trigger: 'blur' }
     ],
     gender: [
         { required: true, message: '请输入', trigger: 'blur' },
@@ -117,7 +117,7 @@ const submitfrom = () => {
                 
                 params.append(i, ruleForm[i])
             }
-            axios.post('/adminapi/user/upload',params,{
+            axios.post('/adminapi/users/upload',params,{
                 headers:{
                     "Content-Type":"multipart/from-data"
                 }

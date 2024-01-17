@@ -77,10 +77,12 @@ const submitFrom =  () => {
     loginFormRef.value.validate(async (value) => {
         if (value) {
             console.log(loginForm);
-            localStorage.setItem('token', 'kewvalue')
+            
             //发送登录请求，把用户名密码给后端
             await axios.post('/adminapi/users/login',loginForm).then((res)=>{
                 if(res.data.code==200){
+                    localStorage.setItem('token', res.data.data.token)
+                    
                     router.push('/center')
                     store.commit('insertUserInfo',res.data.data)
                     
