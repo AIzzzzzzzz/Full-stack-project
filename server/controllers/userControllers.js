@@ -1,9 +1,11 @@
 //请求方法的逻辑    拿到前端发送的数据后做什么
 let db = require('../db/sql')
 const jwt =require('jsonwebtoken')
+
 const config = require('../config')
 let sqllogin = 'SELECT * FROM full_study_schema.full_table where username=? and password =? '
-
+//存储语句
+let sqlInster = 'insert into full_study_schema.full_table where'
 
 let UserController = {
     login:async (req,res)=>{
@@ -42,6 +44,12 @@ let UserController = {
     },
     upload:async(req,res)=>{
         console.log(req.body,req.file);
+        const token = req.headers['authorization'].split(/\s+/g)[1]
+        jwt.verify(token,config.jwtSecretKey,(err,result)=>{
+            console.log(result['0'].id);
+            //拿到token解析到id往数据库里存储数据
+        })
+        
     }
 }
 

@@ -119,7 +119,8 @@ const submitfrom = () => {
             }
             axios.post('/adminapi/users/upload',params,{
                 headers:{
-                    "Content-Type":"multipart/from-data"
+                    "Content-Type":"multipart/from-data",
+                    "Authorization":localStorage.getItem('token')
                 }
             }).then((res)=>{
                 console.log(res.data);
