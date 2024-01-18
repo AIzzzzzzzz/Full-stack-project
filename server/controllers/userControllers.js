@@ -5,7 +5,8 @@ const jwt =require('jsonwebtoken')
 const config = require('../config')
 let sqllogin = 'SELECT * FROM full_study_schema.full_table where username=? and password =? '
 //存储语句
-let sqlInster = 'insert into full_study_schema.full_table where'
+let sqlInster = 'insert into full_study_schema.full_table (introduction,avatar) value(?,?)  '
+let updataMQL = 'update full_study_schema.full_table set introduction=?,avatar=? where id=?'
 
 let UserController = {
     login:async (req,res)=>{
@@ -27,7 +28,8 @@ let UserController = {
                             gender:result[0].gender,
                             introduction:result[0].introduction,
                             role:result[0].role,
-                            token:'Bearer '+ tokenStr
+                            token:'Bearer '+ tokenStr,
+                            avatar:result[0].avatar
                             
                         }
                     })
@@ -45,9 +47,34 @@ let UserController = {
     upload:async(req,res)=>{
         console.log(req.body,req.file);
         const token = req.headers['authorization'].split(/\s+/g)[1]
+        const avatar = `/avataruploads/${req.file.filename}`
+        let ID = 0
         jwt.verify(token,config.jwtSecretKey,(err,result)=>{
             console.log(result['0'].id);
+            console.log(avatar);
+            console.log(req.body.introduction);
             //拿到token解析到id往数据库里存储数据
+            ID = result['0'].id
+        })
+        db.query(updataMQL,[req.body.introduction,avatar,ID],(err,dbresult)=>{
+            if(err){
+                res.send({
+                    code:404,
+                    msg:'err.message'
+                })
+                console.log(err.message);
+            }
+            else{
+                
+                res.send({
+                    code:200,
+                    msg:'更新成功',
+                    data:{
+                        introduction:req.body.introduction,
+                        avatar,
+                    },
+                })
+            }
         })
         
     }

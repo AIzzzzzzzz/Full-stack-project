@@ -19,7 +19,7 @@
     </template>
         <div class="role">
            
-          <el-avatar :size="80" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png" />
+          <el-avatar :size="80" :src="pngURL" />
         
 
         
@@ -39,8 +39,10 @@
 
 <script  setup>
 import store from '@/store';
+import { computed } from '@vue/reactivity';
 import { ref } from 'vue';
 
+let pngURL = computed(()=>store.state.userinfo.avatar?'http://localhost:3000'+store.state.userinfo.avatar:'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png')
 
 </script>
 

@@ -22,10 +22,10 @@
 
                     <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="120px" class="demo-ruleForm"
                         :size="formSize" status-icon>
-                        <el-form-item label="Activity name" prop="username">
+                        <el-form-item label="用户名" prop="username">
                             <el-input v-model="ruleForm.username" />
                         </el-form-item>
-                        <el-form-item label="Activity name" prop="gender">
+                        <el-form-item label="性别" prop="gender">
                             <el-select v-model="ruleForm.gender" placeholder="Activity zone">
                                 <el-option label="1" value="shanghai" />
                                 <el-option label="0" value="beijing" />
@@ -33,10 +33,10 @@
                             </el-select>
 
                         </el-form-item>
-                        <el-form-item label="Activity name" prop="introduction">
+                        <el-form-item label="简介" prop="introduction">
                             <el-input type="textarea" v-model="ruleForm.introduction" />
                         </el-form-item>
-                        <el-form-item label="Activity name" prop="avatar">
+                        <el-form-item label="头像" prop="avatar">
                             <el-upload class="avatar-uploader"
                                 action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
                                 :show-file-list="false" :on-success="handleAvatarSuccess"
@@ -76,6 +76,7 @@ import { computed } from '@vue/reactivity';
 import store from '@/store';
 import axios from 'axios';
 import { reactive, ref } from 'vue'
+import { ElMessage } from 'element-plus';
 
 
 const ruleFormRef = ref()
@@ -83,11 +84,12 @@ const { username, avatar, introduction, gender } = store.state.userinfo
 const ruleForm = reactive({
     username: '',
     gender: 0,
-    introduction,
-    avatar,
+    introduction:'',
+    avatar:'',
     file: null,
 })
-const avatarUrl = computed(() => store.state.userinfo.avatar ? store.state.userinfo.avatar : 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png')
+const cloneRuleFrom = JSON.parse(JSON.stringify(ruleForm))
+const avatarUrl = computed(() => store.state.userinfo.avatar ? 'http://localhost:3000'+store.state.userinfo.avatar : 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png')
 
 const rules = reactive({
     username: [
@@ -109,7 +111,7 @@ const rules = reactive({
 })
 
 const submitfrom = () => {
-    ruleFormRef.value.validate((file) => {
+    ruleFormRef.value.validate(async (file) => {
         if (file) {
             let params = new FormData()
             for (let i in ruleForm) {
@@ -117,16 +119,26 @@ const submitfrom = () => {
                 
                 params.append(i, ruleForm[i])
             }
-            axios.post('/adminapi/users/upload',params,{
+            await axios.post('/adminapi/users/upload',params,{
                 headers:{
                     "Content-Type":"multipart/from-data",
                     "Authorization":localStorage.getItem('token')
                 }
             }).then((res)=>{
+                ElMessage({
+                    type:'success',
+                    message:res.data.msg
+                })
                 console.log(res.data);
+                store.state.userinfo.avatar = res.data.data.avatar
+                console.log('http://localhost:3000'+store.state.userinfo.avatar,'这是头像地址');
+                
+                // for(let c in cloneRuleFrom){
+                //     ruleForm[c] = cloneRuleFrom[c]
+                // }
             })
             
-            console.log(params);
+           
         }
 
     })

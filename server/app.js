@@ -15,7 +15,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 //注册token加密解密
-app.use(expressJWT.expressjwt({ secret: config.jwtSecretKey, algorithms: ['HS256'] }).unless({path:[/^\/adminapi/]}))
+app.use(expressJWT.expressjwt({ secret: config.jwtSecretKey, algorithms: ['HS256'] }).unless({path:[/^\/adminapi/,/^\/avataruploads/]}))
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
