@@ -74,9 +74,10 @@
 <script setup>
 import { computed } from '@vue/reactivity';
 import store from '@/store';
-import axios from 'axios';
+
 import { reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus';
+import upload from '../../utile/upload'
 
 
 const ruleFormRef = ref()
@@ -110,21 +111,10 @@ const rules = reactive({
     ],
 })
 
-const submitfrom = () => {
+const submitfrom = async () => {
     ruleFormRef.value.validate(async (file) => {
         if (file) {
-            let params = new FormData()
-            for (let i in ruleForm) {
-                
-                
-                params.append(i, ruleForm[i])
-            }
-            await axios.post('/adminapi/users/upload',params,{
-                headers:{
-                    "Content-Type":"multipart/from-data",
-                    "Authorization":localStorage.getItem('token')
-                }
-            }).then((res)=>{
+           await upload('/adminapi/users/upload',ruleForm).then((res)=>{
                 ElMessage({
                     type:'success',
                     message:res.data.msg
@@ -148,6 +138,8 @@ const submitfrom = () => {
 const handlechange = (node) => {
     console.log(node);
     if (node) {
+        console.log(node.raw,'rew的');
+        console.log(URL.createObjectURL(node.raw));
         ruleForm.avatar = URL.createObjectURL(node.raw)
         ruleForm.file = node.raw
 
