@@ -7,4 +7,5 @@ let UserController = require('../../controllers/userControllers')
 userRouter.post('/adminapi/users/login',UserController.login);
 //用户上传接口
 userRouter.post('/adminapi/users/upload',upload.single('file'),UserController.upload)
+userRouter.post('/adminapi/users/adduser',upload.single('file'),UserController.adduser)
 module.exports = userRouter

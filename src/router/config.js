@@ -8,7 +8,7 @@ const routers = [
     component: () => import("../views/home/home.vue"),
   },
   {
-    path: "/user_manage/useradd",
+    path: "/user_manage/adduser",
     component: () => import("../views/user_manage/UserAdd.vue"),
   },
   {

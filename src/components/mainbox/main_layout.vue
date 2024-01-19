@@ -14,7 +14,7 @@
                 </el-icon>
                 <span>用户中心</span>
             </el-menu-item>
-            <el-sub-menu index="/user-manage">
+            <el-sub-menu index="/user_manage">
                 <template #title>
                     <el-icon>
                         <UserFilled />
@@ -22,12 +22,12 @@
                     <span>用户管理</span>
                 </template>
 
-                <el-menu-item index="/user-manage/adduser">
+                <el-menu-item index="/user_manage/adduser">
                     <el-icon>
                         <CirclePlusFilled />
                     </el-icon>
                     添加用户</el-menu-item>
-                <el-menu-item index="/user-manage/userlist">
+                <el-menu-item index="/user_manage/userlist">
                     <el-icon>
                         <Grid />
                     </el-icon>
@@ -36,7 +36,7 @@
 
             </el-sub-menu>
 
-            <el-sub-menu index="/news-manage">
+            <el-sub-menu index="/news_manage">
                 <template #title>
                     <el-icon>
                         <Comment />
@@ -44,12 +44,12 @@
                     <span>新闻管理</span>
                 </template>
 
-                <el-menu-item index="/news-manage/addnews">添加新闻</el-menu-item>
-                <el-menu-item index="/news-manage/newslist">新闻列表</el-menu-item>
+                <el-menu-item index="/news_manage/addnews">添加新闻</el-menu-item>
+                <el-menu-item index="/news_manage/newslist">新闻列表</el-menu-item>
 
 
             </el-sub-menu>
-            <el-sub-menu index="/product-manage">
+            <el-sub-menu index="/product_manage">
                 <template #title>
                     <el-icon>
                         <MoreFilled />
@@ -57,8 +57,8 @@
                     <span>产品管理</span>
                 </template>
 
-                <el-menu-item index="/product-manage/addproduct">添加产品</el-menu-item>
-                <el-menu-item index="/product-manage/productslist">产品列表</el-menu-item>
+                <el-menu-item index="/product_manage/addproduct">添加产品</el-menu-item>
+                <el-menu-item index="/product_manage/productslist">产品列表</el-menu-item>
 
 
             </el-sub-menu>

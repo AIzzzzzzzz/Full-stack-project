@@ -120,7 +120,8 @@ const submitfrom = async () => {
                     message:res.data.msg
                 })
                 console.log(res.data);
-                store.state.userinfo.avatar = res.data.data.avatar
+                store.commit('insertUserInfo',res.data.data)
+                
                 console.log('http://localhost:3000'+store.state.userinfo.avatar,'这是头像地址');
                 
                 // for(let c in cloneRuleFrom){
@@ -149,13 +150,6 @@ const handlechange = (node) => {
 
 
 
-const req_ceshi = async () => {
-    await axios.post('/adminapi/user/user', 'get的数据').then((res) => {
-        console.log(res.data);
-    })
-
-    console.log('已发送');
-}
 </script>
 
 <style lang="scss" scoped>
@@ -180,25 +174,3 @@ const req_ceshi = async () => {
 
 
 
-<style>
-.avatar-uploader .el-upload {
-    border: 1px dashed var(--el-border-color);
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    transition: var(--el-transition-duration-fast);
-}
-
-.avatar-uploader .el-upload:hover {
-    border-color: var(--el-color-primary);
-}
-
-.el-icon.avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    text-align: center;
-}
-</style>
