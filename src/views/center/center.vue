@@ -164,7 +164,7 @@ const handlechange = (node) => {
 }
 
 .card_width {
-    width: 30%;
+    width: 100%;
     text-align: center;
     align-items: center;
     display: flex;

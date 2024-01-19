@@ -23,13 +23,13 @@ import MainLayout from '../components/mainbox/main_layout'
 <style lang="scss" scoped>
 .mainbox {
 
-    height: 100vh;
+    height: 100%;
 
     .common-layout {
 
 
         .el-aside {
-            height: 100vh;
+            height: 100%;
         }
     }
 }

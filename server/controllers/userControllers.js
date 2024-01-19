@@ -79,8 +79,20 @@ let UserController = {
         
     },
     adduser:async (req,res)=>{
-        db.query(sqlSetInster,[],(err,result)=>{
-            console.log(result);
+        console.log(req.file,req.body);
+        let avatar = `/avataruploads/${req.file.filename}` 
+        req.body.avatar = avatar
+        db.query(sqlSetInster,[req.body],(err,result)=>{
+            if(err) {
+                console.log(err.message);
+            }
+            else{
+                console.log(result);
+                res.send({
+                    code:200,
+                    msg:"成功"
+                })
+            }
         })
     }
 }

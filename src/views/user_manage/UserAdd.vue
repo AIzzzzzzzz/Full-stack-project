@@ -1,8 +1,6 @@
 <template>
     <div class="-container">
-        <el-page-header content="用户中心" :icon="null" title="管理系统">
-            
-</el-page-header>
+        <el-page-header content="用户中心" :icon="null" title="管理系统"></el-page-header>
 <el-card>
                     <template #header>
                         <div>
@@ -15,19 +13,22 @@
                         <el-form-item label="用户名" prop="username">
                             <el-input v-model="ruleForm.username" />
                         </el-form-item>
+                        <el-form-item label="密码" prop="password">
+                            <el-input v-model="ruleForm.password" />
+                        </el-form-item>
                         <el-form-item label="性别" prop="gender">
                             <el-select v-model="ruleForm.gender" placeholder="Activity zone">
-                                <el-option label="0" value="shanghai" />
-                                <el-option label="1" value="beijing" />
-                                <el-option label="2" value="beijing" />
+                                <el-option label="0" value="男" />
+                                <el-option label="1" value="女" />
+                                
                             </el-select>
 
                         </el-form-item>
                         <el-form-item label="权限" prop="role">
                             <el-select v-model="ruleForm.role" placeholder="权限选择">
-                                <el-option label="超级管理员" value="guanli" />
-                                <el-option label="管理员" value="beijing" />
-                                <el-option label="用户" value="beijing" />
+                                <el-option label="超级管理员" value="0" />
+                                <el-option label="管理员" value="1" />
+                                <el-option label="用户" value="2" />
                             </el-select>
 
                         </el-form-item>
@@ -70,6 +71,7 @@ const ruleFormRef = ref()
 const { username, avatar, introduction, gender } = store.state.userinfo
 const ruleForm = reactive({
     username: '',
+    password:'',
     gender: 0,
     role:'',
     introduction:'',
@@ -84,7 +86,15 @@ const rules = reactive({
         { required: true, message: '请输入', trigger: 'blur' },
         { min: 3, max: 12, message: '长度', trigger: 'blur' }
     ],
+    password: [
+        { required: true, message: '请输入', trigger: 'blur' },
+        { min: 3, max: 12, message: '长度', trigger: 'blur' }
+    ],
     gender: [
+        { required: true, message: '请输入', trigger: 'blur' },
+
+    ],
+    role: [
         { required: true, message: '请输入', trigger: 'blur' },
 
     ],
@@ -107,7 +117,7 @@ const submitfrom = async () => {
                     message:res.data.msg
                 })
                 
-                store.commit('insertUserInfo',res.data.data)
+                // store.commit('insertUserInfo',res.data.data)
                 
                 console.log('http://localhost:3000'+store.state.userinfo.avatar,'这是头像地址');
                 
@@ -130,7 +140,7 @@ const handlechange = (node) => {
         // console.log(URL.createObjectURL(node.raw));
         ruleForm.avatar = URL.createObjectURL(node.raw)
         ruleForm.file = node.raw
-
+        console.log(ruleForm.role);
     }
 
 }
@@ -140,6 +150,9 @@ const handlechange = (node) => {
 </script>
 
 <style lang="scss" scoped>
+.el-card{
+    width: 80vw;
+}
 .avatar-uploader .avatar {
     width: 178px;
     height: 178px;
@@ -151,7 +164,7 @@ const handlechange = (node) => {
 }
 
 .card_width {
-    width: 30%;
+    width: 100%;
     text-align: center;
     align-items: center;
     display: flex;
