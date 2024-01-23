@@ -7,7 +7,12 @@ let sqllogin = 'SELECT * FROM full_study_schema.full_table where username=? and 
 //存储语句
 let sqlInster = 'insert into full_study_schema.full_table (introduction,avatar) value(?,?)  '
 let updataMQL = 'update full_study_schema.full_table set introduction=?,avatar=? where id=?'
+const userlist = 'select id,username,avatar,role from full_study_schema.full_table username'
+const userlistPass = 'select id,username,password,role from full_study_schema.full_table where id = ?'
 const sqlSetInster = 'insert into full_study_schema.full_table set ?'
+const deleteSql = 'delete from full_study_schema.full_table where id=?'
+
+const updata = 'update full_study_schema.full_table set username=?,password=?,role=? where id=?'
 let UserController = {
     login:async (req,res)=>{
             let {username,password} = req.body
@@ -94,7 +99,61 @@ let UserController = {
                 })
             }
         })
+    },
+    userlist:async (req,res)=>{
+        
+        req.params.id?
+        db.query(userlistPass,req.params.id,(err,result)=>{
+            if(err){
+                console.log(err.message);
+            }else{
+                res.send({
+                    code:200,
+                    msg:'成功',
+                    data:result[0]
+                })
+            }
+        }):
+        db.query(userlist,(err,result)=>{
+            if(err){
+                console.log(err.message);
+            }else{
+                res.send({
+                    code:200,
+                    msg:'成功',
+                    data:result
+                })
+            }
+        })
+    },
+    delete:(req,res)=>{
+        db.query(deleteSql,req.params.id,(err,result)=>{
+            if(err){
+                console.log(err.message);
+            }else{
+                res.send({
+                    code:200,
+                    msg:'删除成功'
+                })
+            }
+        })
+    },
+   
+    putuser:(req,res)=>{
+        let {username,password,role,id} = req.body
+        db.query(updata,[username,password,role,id],(err,result)=>{
+            if(err){
+                console.log(err.message);
+            }else{
+                res.send({
+                    code:200,
+                    msg:"成功"
+                })
+            }
+        })
+       
     }
 }
+
 
 module.exports = UserController

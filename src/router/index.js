@@ -29,19 +29,44 @@ router.beforeEach((to, from, next) => {
     }
 
     if (!store.state.isGetterRouter) {
+      router.removeRoute("mainbox")
+
+      if(!router.hasRoute('mainbox')){
+        router.addRoute({
+          path: "/mainbox",
+          name: "mainBox",
+          component: () => import("../views/mainBox.vue"),
+          children: [],
+        },)
+      }
       routers.forEach((item) => {
-        router.addRoute("mainBox", item);
-      });
+       
+        checkPermission(item)&&router.addRoute("mainBox", item);
+        
+      }
+      );
+      store.commit("changeisGetterRouter", true);
       next({
         //配置好了没有立即加载，要重新传给他
         path: to.fullPath,
       });
 
-      store.commit("changeisGetterRouter", true);
+      
     } else {
       next();
     }
   }
 });
+
+
+const checkPermission = (item)=>{
+  if(item.auth){
+    return store.state.userinfo.role===1
+    
+  }
+  else{
+    return true
+  }
+}
 
 export default router;

@@ -10,17 +10,19 @@ const routers = [
   {
     path: "/user_manage/adduser",
     component: () => import("../views/user_manage/UserAdd.vue"),
+    auth:true
   },
   {
     path: "/user_manage/userlist",
     component: () => import("../views/user_manage/UserList.vue"),
+    auth:true
   },
   {
-    path: "/news_manage/newadd",
+    path: "/news_manage/addnews",
     component: () => import("../views/news_manage/newadd.vue"),
   },
   {
-    path: "/user_manage/newlist",
+    path: "/news_manage/newslist",
     component: () => import("../views/news_manage/newlist.vue"),
   },
   {

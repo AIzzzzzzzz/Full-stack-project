@@ -2,9 +2,7 @@
     <div class="main">
         <div class="heder">
         <el-page-header content="首页" :icon="null" title="管理系统">
-    <!-- <template #content>
-      <span class="text-large font-600 mr-3"> Title </span>
-    </template> -->
+   
   </el-page-header>
     </div>
     <div class="card">

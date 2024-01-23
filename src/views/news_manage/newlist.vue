@@ -1,6 +1,6 @@
 <template>
     <div class="-container">
-        newlist
+        <el-page-header content="新闻列表" :icon="null" title="管理系统"></el-page-header>
     </div>
 </template>
 

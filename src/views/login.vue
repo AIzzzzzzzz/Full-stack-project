@@ -85,7 +85,7 @@ const submitFrom =  () => {
                     
                     router.push('/center')
                     store.commit('insertUserInfo',res.data.data)
-                    
+                    store.commit("changeisGetterRouter", false);
                     console.log(store.state.userinfo,'商店数据');
                 }
                 else{

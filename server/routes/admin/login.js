@@ -8,4 +8,10 @@ userRouter.post('/adminapi/users/login',UserController.login);
 //用户上传接口
 userRouter.post('/adminapi/users/upload',upload.single('file'),UserController.upload)
 userRouter.post('/adminapi/users/adduser',upload.single('file'),UserController.adduser)
+
+userRouter.get('/adminapi/users/list/:id',UserController.userlist)
+userRouter.get('/adminapi/users/list',UserController.userlist)
+userRouter.delete('/adminapi/users/list/:id',UserController.delete)
+
+userRouter.put('/adminapi/users/putuser',UserController.putuser)
 module.exports = userRouter
